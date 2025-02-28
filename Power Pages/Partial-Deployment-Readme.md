@@ -43,7 +43,7 @@ if ($deletedFiles) {
 | **Method**                     | **Pros** | **Cons** |
 |---------------------------------|----------|----------|
 | ✅ **Partial Deployment (Git-based)** | Efficient, automatic, flexible | Needs Git history tracking |
-| ❌ **pac CLI (Power Pages exclude entities)** | Works with Environment | Cannot build from repository |
+| ❌ **PAC CLI (Power Pages --excludeentities)** | Unnecessary entities can be removed from deployment process | It is impossible to filter elements of the same entity |
 | ❌ **Manifest Files** | Defines dependencies explicitly | Requires manual updates, bloated file size |
 
 ⚠️ **Why Not Manifest Files?**  
