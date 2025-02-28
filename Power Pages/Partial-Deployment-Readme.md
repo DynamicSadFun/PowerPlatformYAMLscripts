@@ -20,6 +20,7 @@ This is where **Partial Deployment** comes in! With this approach, teams can:
 ---
 
 ## **⚙️ How It Works**  
+![Items](https://github.com/user-attachments/assets/13fdf8f4-e178-4d84-a91c-15c25b34e42f)
 
 🔹 **Mode 1: Partial Deployment** → The pipeline detects modified files **within X days** and only packages those.  
 🔹 **Mode 2: Full Deployment** → If `numberOfDays = ALL` or files have been **deleted**, a full deployment is triggered.  
