@@ -20,7 +20,7 @@ resources:
 
 variables:
   - name: FULL_BUILD_REQUIRED
-    value: 'false'  # Default to incremental build unless deletions are detected
+    value: 'false'  # Default to partial build unless deletions are detected
 
 name: $(Date:yyyy.MM.dd).$(Rev:r)
 
@@ -55,7 +55,7 @@ jobs:
                 Write-Output "Deleted files detected in the last $days days. A full build is required."
                 echo "##vso[task.setvariable variable=FULL_BUILD_REQUIRED]true"
             } else {
-                Write-Output "No deleted files detected in the last $days days. Proceeding with incremental build."
+                Write-Output "No deleted files detected in the last $days days. Proceeding with partial build."
                 echo "##vso[task.setvariable variable=FULL_BUILD_REQUIRED]false"
             }
           displayName: 'Check for Deleted Files'
@@ -69,7 +69,7 @@ jobs:
           ArtifactName: '$(Portal_Name) Configuration'
           publishLocation: 'Container'
 
-      # Step 5: Incremental Build if no deletions were detected
+      # Step 5: Partial Build if no deletions were detected
       - ${{ if eq(variables['FULL_BUILD_REQUIRED'], 'false') }}:
         - powershell: |
             # Define source and destination folders
@@ -157,7 +157,7 @@ jobs:
           displayName: 'Filter & Copy Changed Files (YAML & Deployment Profiles)'
 
         - task: PublishBuildArtifacts@1
-          displayName: 'Publish Incremental Artifact: $(Portal_Name)'
+          displayName: 'Publish Partial Artifact: $(Portal_Name)'
           condition: eq(variables['FULL_BUILD_REQUIRED'], 'false')
           inputs:
             PathtoPublish: '$(Build.ArtifactStagingDirectory)\filtered'
