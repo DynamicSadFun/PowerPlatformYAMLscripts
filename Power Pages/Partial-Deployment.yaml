@@ -2,7 +2,16 @@ parameters:
   - name: numberOfDays
     displayName: "Number of Days to Look Back"
     type: string
-    default: '10'  # Default to the last 10 days of changes
+    default: '30' # Default to the last 30 days of changes
+    values:
+    - '3'
+    - '7'
+    - '14'
+    - '30'
+    - '50' 
+    - '70' 
+    - '100'
+    - 'ALL'
 
 resources:
   repositories:
@@ -16,8 +25,8 @@ variables:
 name: $(Date:yyyy.MM.dd).$(Rev:r)
 
 jobs:
-  - job: MasterDev_build_job_portals
-    displayName: MasterDev - Build Portals
+  - job: build_job_portals
+    displayName: 'Build Portal'
     pool:
       vmImage: windows-latest
     steps:
@@ -149,6 +158,7 @@ jobs:
 
         - task: PublishBuildArtifacts@1
           displayName: 'Publish Incremental Artifact: $(Portal_Name)'
+          condition: eq(variables['FULL_BUILD_REQUIRED'], 'false')
           inputs:
             PathtoPublish: '$(Build.ArtifactStagingDirectory)\filtered'
             ArtifactName: '$(Portal_Name) Configuration'
